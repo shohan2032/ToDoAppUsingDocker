@@ -16,14 +16,19 @@ const { MongoClient, ObjectId } = require('mongodb');
 const cors = require('cors');
 const dotenv = require('dotenv');
 
-dotenv.config({ path: '.env.dev' }); // Ensure .env.dev is loaded correctly
+// dotenv.config({ path: '.env.prod' }); // Ensure .env.dev is loaded correctly
+
+const envFile = process.env.NODE_ENV === 'production' 
+  ? '.env.production' 
+  : '.env.development';
+dotenv.config({ path: envFile });
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
 const PORT = process.env.PORT || 4000;
-const MONGO_URI = process.env.MONGO_URI || '';
+const MONGO_URI = process.env.MONGO_URI;
 const DB_NAME = 'todoDB';
 
 let db, todosCollection;

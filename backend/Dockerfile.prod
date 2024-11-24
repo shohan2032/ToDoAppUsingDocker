@@ -1,0 +1,16 @@
+FROM node:22-alpine3.20
+
+RUN addgroup -S backend
+RUN adduser -S backend -G backend
+
+WORKDIR /app
+
+# COPY . .
+
+RUN chown -R backend:backend /app
+
+USER backend
+
+EXPOSE 4000
+
+CMD ["npm", "run", "start"]
