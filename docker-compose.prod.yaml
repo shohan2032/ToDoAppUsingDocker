@@ -6,8 +6,6 @@ services:
     container_name: task-1-frontend
     volumes:
       - ./frontend:/app:rw
-    ports:
-      - "3000:3000"
     networks:
       - frontend_network
   
@@ -18,8 +16,6 @@ services:
     container_name: task-1-backend
     volumes:
       - ./backend:/app:rw
-    ports:
-      - "4000:4000"
     depends_on:
       - database
     networks:
@@ -31,7 +27,6 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./ssl:/etc/nginx/ssl 
     ports:
-      - "80:80"
       - "443:443"
     depends_on:
       - frontend
@@ -45,8 +40,6 @@ services:
     container_name: task-1-mongodb
     volumes:
       - ./mongo_data:/data/db
-    ports:
-      - "27017:27017"
     networks:
       - backend_network
 
