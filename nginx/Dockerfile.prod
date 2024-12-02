@@ -1,25 +1,20 @@
 # Use the Nginx base image
 FROM nginx:latest
 
-# Install dependencies for mkcert
+# Install dependencies for OpenSSL
 RUN apt-get update && apt-get install -y \
-    libnss3-tools \
+    openssl \
     curl \
     && apt-get clean
-
-# Install mkcert
-RUN curl -L https://github.com/FiloSottile/mkcert/releases/download/v1.4.4/mkcert-v1.4.4-linux-amd64 -o /usr/local/bin/mkcert \
-    && chmod +x /usr/local/bin/mkcert
 
 # Create directory for SSL certificates
 RUN mkdir -p /etc/nginx/ssl
 
-# Copy entrypoint script
-COPY ./entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+COPY ./entrypoint.sh /etc/nginx/entrypoint.sh
+RUN chmod +x /etc/nginx/entrypoint.sh
 
 # Expose HTTPS port only
 EXPOSE 443
 
 # Set entrypoint
-CMD ["bash", "/usr/local/bin/entrypoint.sh"]
+CMD ["bash", "/etc/nginx/entrypoint.sh"]
